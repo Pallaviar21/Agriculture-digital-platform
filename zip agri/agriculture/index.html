@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digital Farming Platform</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./sytle.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+  <link rel="stylesheet" herf="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<header>
+  <nav class="navbar">
+    <div class="logo">🌾 Welcome to Digital Farming Platform 🌾</div>
+    <ul class="nav-links">
+      <li><i class="fas fa-cogs"></i><a href="#features">Features</a></li>
+      <li><i class="fas fa-chart-line"></i><a href="#market">Market Prices</a></li>
+      <li><i class="fas fa-user-md"></i><a href="#advice">Expert Advice</a></li>
+      <li><i class="fas fa-building"></i><a href="#gov-schemes">Govt. Schemes</a></li>
+      <li><i class="fas fa-sun"></i><a href="#weather">Weather</a></li>
+      <li><i class="fas fa-sun"></i><a href="#contact">Contact Us</a></li>
+      <i class="fas fa-drone"></i> Drone Rental Service
+
+
+      
+      
+
+    </ul>
+  </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Connecting Farmers to the Future</h1>
+    <p>Real-time updates, expert advice, and opportunities — all in one platform.</p>
+    <a href="#features" class="btn">Explore Now</a>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="features">
+    <h2>Platform Features</h2>
+    <div class="feature-cards">
+      <div class="card">
+        <h3>Real-time Information</h3>
+        <p>Stay updated with latest weather, crop trends, and farming tips.</p>
+      </div>
+      <div class="card">
+        <h3>Expert Advice</h3>
+        <p>Consult agricultural experts to boost productivity and yields.</p>
+      </div>
+      <div class="card">
+        <h3>Connect with Buyers</h3>
+        <p>Sell your produce directly to buyers without middlemen.</p>
+      </div>
+      <div class="card">
+        <h3>Government Schemes</h3>
+        <p>Get notified about subsidies, schemes, and benefits instantly.</p>
+      </div>
+      <!-- New Feature: Drone Rental -->
+      <div class="card">
+        <h3>Drone Rental Service</h3>
+        <p>Rent drones for crop monitoring, spraying, and data collection.</p>
+      </div>
+      <!-- New Feature: Contact Us -->
+      
+    </div>
+  </section>
+  
+
+
+<!-- Market Prices Section -->
+<section id="market" class="market-share">
+    <h2>🌾 Live Market Share Prices</h2>
+    <div class="dropdown-search">
+      <select id="productDropdown">
+        <option value="">Select a Product</option>
+        <option value="Wheat">Wheat</option>
+        <option value="Rice">Rice</option> <!-- Added Rice -->
+        <option value="Potato">Potato</option>
+        <option value="Tomato">Tomato</option>
+        <option value="Onion">Onion</option>
+        <option value="Mango">Mango</option>
+        <option value="Apple">Apple</option>
+        <option value="Banana">Banana</option>
+        <option value="Spinach">Spinach</option>
+        <option value="Carrot">Carrot</option>
+        <option value="Cabbage">Cabbage</option>
+        <option value="Cauliflower">Cauliflower</option>
+        <option value="Ginger">Ginger</option>
+        <option value="Garlic">Garlic</option>
+        <option value="Chili">Chili</option>
+        <option value="Lemon">Lemon</option>
+      </select>
+      <button id="searchButton">Search</button>
+    </div>
+  
+    <div id="marketShareData" style="display: none;">
+      <h3>Market Price</h3>
+      <p><strong>Product:</strong> <span id="productName"></span></p>
+      <p><strong>Price per kg:</strong> <span id="productPrice"></span></p>
+      <p><strong>Market Trend:</strong> <span id="productTrend"></span></p>
+    </div>
+  </section>
+  
+  
+
+  
+  <script>
+    // Product Data
+    const marketData = [
+      { name: "Wheat", price: "₹ 25", trend: "Stable" },
+      { name: "Rice", price: "₹ 40", trend: "Increasing" },
+      { name: "Potato", price: "₹ 15", trend: "Decreasing" },
+      { name: "Tomato", price: "₹ 30", trend: "Stable" },
+      { name: "Onion", price: "₹ 22", trend: "Increasing" },
+      { name: "Mango", price: "₹ 70", trend: "Increasing" },
+      { name: "Apple", price: "₹ 120", trend: "Stable" },
+      { name: "Banana", price: "₹ 50", trend: "Decreasing" },
+      { name: "Spinach", price: "₹ 40", trend: "Increasing" },
+      { name: "Carrot", price: "₹ 35", trend: "Decreasing" },
+      { name: "Cabbage", price: "₹ 20", trend: "Stable" },
+      { name: "Cauliflower", price: "₹ 25", trend: "Stable" },
+      { name: "Ginger", price: "₹ 45", trend: "Increasing" },
+      { name: "Garlic", price: "₹ 60", trend: "Increasing" },
+      { name: "Chili", price: "₹ 50", trend: "Stable" },
+      { name: "Lemon", price: "₹ 35", trend: "Increasing" }
+    ];
+  
+    // Event listener for the search button
+    document.getElementById('searchButton').addEventListener('click', function() {
+      const selectedProduct = document.getElementById('productDropdown').value;
+  
+      // Check if a product was selected
+      if (!selectedProduct) {
+        alert("Please select a product.");
+        return;
+      }
+  
+      // Find the product info from the marketData array
+      const productInfo = marketData.find(product => product.name === selectedProduct);
+  
+      if (productInfo) {
+        // Display the product data
+        document.getElementById('productName').textContent = productInfo.name;
+        document.getElementById('productPrice').textContent = productInfo.price;
+        document.getElementById('productTrend').textContent = productInfo.trend;
+  
+        // Show the marketShareData div
+        document.getElementById('marketShareData').style.display = 'block';
+      } else {
+        alert("Product not found.");
+      }
+    });
+  </script>
+  
+
+<!-- Animations -->
+<style>
+@keyframes spin {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #0277bd;
+}
+</style>
+
+<!-- Government Schemes Section -->
+<section id="gov-schemes">
+  <h2><i class="fas fa-landmark"></i> Government Schemes</h2>
+  <ul class="schemes-list">
+    <li>
+      <h3>PM Kisan Scheme</h3>
+      <p>Provides income support of ₹6000 per year to all landholding farmer families to supplement their financial needs.</p>
+      <a href="https://pmkisan.gov.in/" target="_blank" class="btn">Visit Website</a>
+      <button class="btn-info" onclick="alert('PM-KISAN provides ₹6000/year in three equal installments to eligible farmers. Visit the official site for application and eligibility details.')">More Information</button>
+    </li>
+    <li>
+      <h3>MGNREGA</h3>
+      <p>Mahatma Gandhi National Rural Employment Guarantee Act offers 100 days of wage employment to rural households.</p>
+      <a href="https://mgnregaweb.nic.in/netnrega/home.aspx" target="_blank" class="btn">Visit Website</a>
+      <button class="btn-info" onclick="alert('MGNREGA guarantees 100 days of employment to enhance livelihood security in rural areas. Click visit to apply or check status.')">More Information</button>
+    </li>
+    <li>
+      <h3>PM Awas Yojana</h3>
+      <p>Housing scheme aimed at providing affordable housing to the urban and rural poor of India.</p>
+      <a href="https://www.pradhanmantriyojana.co.in/" target="_blank" class="btn">Visit Website</a>
+      <button class="btn-info" onclick="alert('PMAY aims to provide affordable housing to all by 2022 through financial assistance and interest subsidies.')">More Information</button>
+    </li>
+    <li>
+      <h3>RKVY (Rashtriya Krishi Vikas Yojana)</h3>
+      <p>Initiative to incentivize states to increase public investment in agriculture and allied sectors.</p>
+      <a href="https://www.rashtriyakrishivikasyojna.in/" target="_blank" class="btn">Visit Website</a>
+      <button class="btn-info" onclick="alert('RKVY provides financial support to strengthen agriculture infrastructure, ensure food security, and boost farmers\' income.')">More Information</button>
+    </li>
+  </ul>
+</section>
+
+<!-- Add some simple CSS for button styling -->
+<style>
+  #gov-schemes .schemes-list li {
+    margin-bottom: 20px;
+    list-style-type: none;
+  }
+  #gov-schemes .btn, #gov-schemes .btn-info {
+    display: inline-block;
+    margin: 5px 5px 5px 0;
+    padding: 8px 15px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #gov-schemes .btn-info {
+    background-color: hwb(230 24% 13%);
+  }
+  #gov-schemes .btn:hover, #gov-schemes .btn-info:hover {
+    opacity: 0.9;
+  }
+</style>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agricultural Advisors</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    
+    #advisor {
+      padding: 60px 20px;
+      background: #e8f5e9;
+      font-family: 'Arial', sans-serif;
+    }
+    
+    h2 {
+      text-align: center;
+      color: #2e7d32;
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+    
+    .advisor-container {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .advisor-card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 128, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .advisor-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .advisor-card h3 {
+      color: #2e7d32;
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .advisor-card p {
+      font-size: 1rem;
+      margin: 10px 0;
+    }
+
+    .btn-contact,
+    .btn-more {
+      background-color: #66bb6a;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      margin-right: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background 0.3s ease;
+    }
+
+    .btn-contact:hover,
+    .btn-more:hover {
+      background-color: #388e3c;
+    }
+
+    .more-info {
+      display: none;
+      margin-top: 15px;
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+      font-size: 1rem;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Styles for smaller devices */
+    @media (max-width: 768px) {
+      .advisor-container {
+        flex-direction: column;
+      }
+      
+      .advisor-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<section id="advisor">
+  <h2>Meet Our Agricultural Advisors</h2>
+
+  <div class="advisor-container">
+    
+    <!-- Advisor 1 -->
+    <div class="advisor-card">
+      <h3>Dr. John Green</h3>
+      <p><strong>Expertise:</strong> Crop Management & Sustainable Farming</p>
+      <p><strong>Email:</strong> johngreen@agri-experts.com</p>
+      <p><strong>Phone:</strong> +91-1234567890</p>
+      <button class="btn-contact" onclick="alert('Email Dr. John at johngreen@agri-experts.com or call +91-1234567890')">📞 Contact Advisor</button>
+      <button class="btn-more" onclick="toggleInfo(this)">ℹ️ More Info</button>
+      <div class="more-info">
+        <p>Dr. John Green has over 20 years of experience helping farmers optimize their crop yield using eco-friendly methods and data-driven planning. He conducts regular field visits and webinars to guide farming communities.</p>
+      </div>
+    </div>
+
+    <!-- Advisor 2 -->
+    <div class="advisor-card">
+      <h3>Dr. Emily White</h3>
+      <p><strong>Expertise:</strong> Agricultural Engineering</p>
+      <p><strong>Email:</strong> emilywhite@agri-experts.com</p>
+      <p><strong>Phone:</strong> +91-9876543210</p>
+      <button class="btn-contact" onclick="alert('Email Dr. Emily at emilywhite@agri-experts.com or call +91-9876543210')">📞 Contact Advisor</button>
+      <button class="btn-more" onclick="toggleInfo(this)">ℹ️ More Info</button>
+      <div class="more-info">
+        <p>Specializing in smart irrigation and mechanization, Dr. Emily helps implement advanced technologies on Indian farms. She’s a speaker at national agri-tech events and a consultant to rural co-ops.</p>
+      </div>
+    </div>
+
+    <!-- Advisor 3 -->
+    <div class="advisor-card">
+      <h3>Dr. Mark Black</h3>
+      <p><strong>Expertise:</strong> Livestock Nutrition & Management</p>
+      <p><strong>Email:</strong> markblack@agri-experts.com</p>
+      <p><strong>Phone:</strong> +91-9988776655</p>
+      <button class="btn-contact" onclick="alert('Email Dr. Mark at markblack@agri-experts.com or call +91-9988776655')">📞 Contact Advisor</button>
+      <button class="btn-more" onclick="toggleInfo(this)">ℹ️ More Info</button>
+      <div class="more-info">
+        <p>Dr. Mark advises on feeding programs and herd health. He has helped hundreds of dairy and poultry farmers improve profitability with scientifically balanced nutrition strategies.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function toggleInfo(button) {
+    const info = button.nextElementSibling;
+    if (info.style.display === "block") {
+      info.style.display = "none";
+      button.textContent = "ℹ️ More Info";
+    } else {
+      info.style.display = "block";
+      button.textContent = "🔽 Hide Info";
+    }
+  }
+</script>
+
+</body>
+</html>
+
+  
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Animations */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* General Styles */
+        #weather {
+            padding: 2rem;
+            background: #e0f7fa;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        #weather h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        #weather-info {
+            text-align: center;
+        }
+
+        #weather-info label {
+            font-size: 1.2rem;
+        }
+
+        #city {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 200px;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #0288d1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #0277bd;
+        }
+
+        #weather-result,
+        #forecast-result {
+            margin-top: 2rem;
+            font-size: 1.2rem;
+        }
+
+        #forecast-result .forecast {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .forecast-day {
+            background-color: #ffffff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 150px;
+        }
+
+        .forecast-day h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .forecast-day p {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Weather Section -->
+    <section id="weather">
+        <h2>
+            <i class="fas fa-cloud-sun" style="color: #ff9800; animation: spin 4s linear infinite;"></i> Current
+            Weather & 5-Day Forecast
+        </h2>
+
+        <div id="weather-info">
+            <label for="city">
+                <i class="fas fa-city"></i> Enter your city:
+            </label><br><br>
+
+            <input type="text" id="city" placeholder="Enter city" />
+            <button onclick="getWeather()">
+                <i class="fas fa-search-location"></i> Get Weather
+            </button>
+
+            <div id="weather-result"></div>
+            <div id="forecast-result"></div>
+        </div>
+    </section>
+
+    <script>
+        const apiKey = '57094ed0b617ca603848547e5ef31e57';
+
+        async function getWeather() {
+            const city = document.getElementById("city").value;
+            const weatherDiv = document.getElementById("weather-result");
+            const forecastDiv = document.getElementById("forecast-result");
+
+            if (city) {
+                try {
+                    const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+                    const weatherData = await weatherResponse.json();
+
+                    if (weatherData.cod === 200) {
+                        const temp = weatherData.main.temp;
+                        const description = weatherData.weather[0].description;
+                        const humidity = weatherData.main.humidity;
+                        const windSpeed = weatherData.wind.speed;
+
+                        weatherDiv.innerHTML = `
+                            <h3>Current Weather in ${city}</h3>
+                            <p><strong>Temperature:</strong> ${temp}°C</p>
+                            <p><strong>Description:</strong> ${description}</p>
+                            <p><strong>Humidity:</strong> ${humidity}%</p>
+                            <p><strong>Wind Speed:</strong> ${windSpeed} m/s</p>
+                        `;
+
+                        const forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`);
+                        const forecastData = await forecastResponse.json();
+
+                        if (forecastData.cod === '200') {
+                            forecastDiv.innerHTML = `
+                                <h3>5-Day Forecast:</h3>
+                                <div class="forecast">
+                                    ${forecastData.list.slice(0, 5).map(forecast => {
+                                const date = new Date(forecast.dt * 1000);
+                                const day = date.toLocaleDateString();
+                                const temp = forecast.main.temp;
+                                const description = forecast.weather[0].description;
+                                return `
+                                        <div class="forecast-day">
+                                            <h4>${day}</h4>
+                                            <p><strong>Temp:</strong> ${temp}°C</p>
+                                            <p><strong>Weather:</strong> ${description}</p>
+                                        </div>
+                                    `;
+                            }).join('')}
+                                </div>
+                            `;
+                        } else {
+                            forecastDiv.innerHTML = `<p>Unable to fetch the forecast. Please try again later.</p>`;
+                        }
+                    } else {
+                        weatherDiv.innerHTML = `<p>City not found. Please try again.</p>`;
+                    }
+                } catch (error) {
+                    weatherDiv.innerHTML = `<p>There was an error fetching the weather data. Please try again later.</p>`;
+                    forecastDiv.innerHTML = '';
+                }
+            } else {
+                weatherDiv.innerHTML = `<p>Please enter a city name.</p>`;
+                forecastDiv.innerHTML = '';
+            }
+        }
+    </script>
+    <!-- Contact Section -->
+<section class="contact-section">
+    <h2>📞 Contact Us</h2>
+    <p>Have questions about our platform, government schemes, or farming practices? Need expert advice? We're here to help!</p>
+    <p>Click the button below to fill out our contact form — our team will get back to you as soon as possible.</p>
+    <a href="https://forms.office.com/r/xSv5t4g1Qv" target="_blank" class="contact-btn-form">📝 Visit Form</a>
+
+    <button class="contact-btn-info" onclick="alert('By filling the contact form, you can ask questions, seek guidance from experts, request assistance, or give feedback. We aim to respond within 24-48 hours.')">ℹ More Information</button>
+  </section>
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Microsoft Form Link</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fc;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      margin: auto;
+    }
+
+    .form-container h2 {
+      color: #2d3e50;
+    }
+
+    .form-description {
+      font-size: 16px;
+      color: #555;
+      margin: 15px 0 25px;
+    }
+
+    .form-button {
+      background-color: #0078D4;
+      color: white;
+      padding: 14px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+
+    .form-button:hover {
+      background-color: #005a9e;
+      transform: scale(1.05);
+    }
+
+    .form-button i {
+      margin-right: 8px;
+    }
+    
+  </style>
+  
+</script>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2><i class="fas fa-clipboard-list"></i> Submit Your Response</h2>
+    <p class="form-description">
+      Please click the button below to open the Microsoft Form and submit your response. Your input is valuable and helps us improve.
+    </p>
+    <a href="https://forms.cloud.microsoft/r/9K2XJms4LB" target="_blank">
+      <button class="form-button">
+        <i class="fas fa-external-link-alt"></i> Open Drone Rental Form
+      </button>
+    </a>
+  </div>
+
+</body>
+</html>
+
+
+</body>
+
+</html>
